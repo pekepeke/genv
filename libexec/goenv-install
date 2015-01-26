@@ -44,13 +44,17 @@ function download_url() {
 
 # List available versions
 list_versions() {
-  source ./resources/versions
-  echo "Available versions:"
-  local key "${platform}_${arch}_$(echo ${extra} | tr -d '[:punct:]')"
-  for version in `echo ${VERSIONS[$key]}`
+  for version in `curl -s https://go.googlesource.com/go/+refs | perl -ne 'print "$1\n" while $_ =~ m!<a[^>]*>go([\d\.\w]*)</a>!g;' | grep -v rc | grep -v beta`
   do
-    echo "  $version"
+    echo "$version"
   done
+  # source ./resources/versions
+  # echo "Available versions:"
+  # local key "${platform}_${arch}_$(echo ${extra} | tr -d '[:punct:]')"
+  # for version in `echo ${VERSIONS[$key]}`
+  # do
+  #   echo "  $version"
+  # done
 }
 
 # Check for -l | --list flag
