@@ -18,12 +18,14 @@ main() {
     from=genv
     to=goenv
   fi
-  for f in $(find . -name ".git" -prune -prune -o -type f); do
-    if [ $(basename $f) == $script -o -d $f ]; then
-      continue
-    fi
-    sed -i "s/$from/$to/g" $f
-    mv $f $(echo $f | sed "s/$from/$to/")
+  for d in "bin libexec plugins"; do
+    for f in $(find $d -name ".git" -prune -prune -o -type f); do
+      if [ $(basename $f) == $script -o -d $f ]; then
+        continue
+      fi
+      sed -i "s/$from/$to/g" $f
+      mv $f $(echo $f | sed "s/$from/$to/")
+    done
   done
   cd bin
   rm $from
