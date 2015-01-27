@@ -11,6 +11,19 @@ EOM
 }
 
 main() {
+  local cmd="sed"
+  local option="-i"
+
+  case $OSTYPE in
+    darwin*)
+      option='-i "" -e'
+      if which gsed >/dev/null 2>&1; then
+        cmd="gsed"
+        option="-i"
+      fi
+      ;;
+  esac
+
   local from=goenv
   local to=genv
   local script=$(basename $0)
@@ -23,7 +36,7 @@ main() {
       if [ $(basename $f) == $script -o -d $f ]; then
         continue
       fi
-      sed -i "s/$from/$to/g" $f
+      eval $cmd $option "s/$from/$to/g" $f
       mv $f $(echo $f | sed "s/$from/$to/")
     done
   done
