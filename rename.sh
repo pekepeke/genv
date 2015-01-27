@@ -5,7 +5,7 @@ usage() {
   prg_name=`basename $0`
   cat <<EOM
   Usage: $prg_name [-h]
--r : rename genv* to goenv*
+-r : rename golangenv* to goenv*
 EOM
   exit 1
 }
@@ -25,10 +25,10 @@ main() {
   esac
 
   local from=goenv
-  local to=genv
+  local to=golangenv
   local script=$(basename $0)
   if [ $opt_restore -eq 1 ]; then
-    from=genv
+    from=golangenv
     to=goenv
   fi
   for d in "bin libexec plugins"; do
